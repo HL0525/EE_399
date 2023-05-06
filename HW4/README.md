@@ -162,12 +162,12 @@ For the first part of the project, a three-layer feedforward neural network was 
 using the first 20 data points as training data and tested on the remaining 10 data points. The least-square error was computed for 
 each model over the training points, and the models were then tested on the test data. The same process was repeated using the first 
 10 and last 10 data points as training data.
-'''
+```
 Explained variance of each PCA mode:  [0.09704664 0.07095924 0.06169089 0.05389419 0.04868797 0.04312231
  0.0327193  0.02883895 0.02762029 0.02357001 0.0210919  0.02022991
  0.01715818 0.01692111 0.01578639 0.01482937 0.01324547 0.0127688
  0.01187182 0.01152634]
- '''
+```
  
 The results showed that the neural network performed better than the models fit in homework one. The neural network achieved a lower 
 least-square error than the models fit in homework one, indicating that it was better at predicting the values of the data.
@@ -175,7 +175,7 @@ least-square error than the models fit in homework one, indicating that it was b
 For the second part of the project, a feedforward neural network was trained on the MNIST dataset. The first 20 principal components
 of the digit images were computed using PCA. A feedforward neural network was then built to classify the digits. The performance of
 the neural network was compared against LSTM, SVM (support vector machines), and decision tree classifiers.
-'''
+```
 FNN Epoch 1 loss: 0.757
 FNN Epoch 2 loss: 0.368
 FNN Epoch 3 loss: 0.322
@@ -187,8 +187,8 @@ FNN Epoch 8 loss: 0.220
 FNN Epoch 9 loss: 0.207
 FNN Epoch 10 loss: 0.195
 FNN Test accuracy: 94.640%
-'''
-'''
+```
+```
 Epoch 1 loss: 0.378
 Epoch 2 loss: 0.180
 Epoch 3 loss: 0.134
@@ -201,11 +201,11 @@ Epoch 9 loss: 0.058
 Epoch 10 loss: 0.053
 Neural network accuracy: 0.975
 SVM accuracy: 0.936
-'''
+```
 
 The results showed that the neural network outperformed the other classifiers, achieving a higher accuracy in classifying the digits.
 The use of PCA helped to improve the performance of the neural network by reducing the dimensionality of the data and removing irrelevant features.
-'''
+```
 Epoch 1 loss: 0.378
 Epoch 2 loss: 0.180
 Epoch 3 loss: 0.134
@@ -218,7 +218,7 @@ Epoch 9 loss: 0.058
 Epoch 10 loss: 0.053
 Neural network accuracy: 0.975
 SVM accuracy: 0.936
-'''
+```
 
 Overall, the results of the project demonstrate the effectiveness of using neural networks for data analysis and classification tasks. 
 The use of PCA also highlights the importance of feature selection and dimensionality reduction in improving the performance of 

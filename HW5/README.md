@@ -54,53 +54,86 @@ Neural networks are computational models inspired by the structure and functioni
 Feed-forward neural networks, or multilayer perceptrons (MLPs), are the most basic type of neural network. They consist of an input layer, one or more hidden layers, and an output layer. Information flows forward through the network, with no loops or feedback connections.
 
 ```
+# Define the feed-forward model
+class FeedForwardModel(nn.Module):
+    def __init__(self):
+        super(FeedForwardModel, self).__init__()
+        self.fc1 = nn.Linear(3, 64)
+        self.fc2 = nn.Linear(64, 32)
+        self.fc3 = nn.Linear(32, 3)
+
     def forward(self, x):
-        _, (h_n, _) = self.lstm(x)
-        output = self.fc(h_n[-1])  # Use the last hidden state
-        return output
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
 ```
 
 #### - LSTM Networks
 Long Short-Term Memory (LSTM) networks are a type of recurrent neural network (RNN) architecture. They were designed to address the vanishing gradient problem in traditional RNNs, allowing them to learn long-term dependencies in sequential data. LSTMs utilize memory cells and gating mechanisms to control the flow of information through the network.
 
 ```
-class MyLSTMModel(nn.Module):
+
+# Define the LSTM model
+class LSTMModel(nn.Module):
     def __init__(self):
-        super(MyLSTMModel, self).__init__()
-        self.lstm = nn.LSTM(input_size=3, hidden_size=10, num_layers=1, batch_first=True)
-        self.fc = nn.Linear(in_features=10, out_features=3)
+        super(LSTMModel, self).__init__()
+        self.lstm = nn.LSTM(3, 64, batch_first=True)
+        self.fc = nn.Linear(64, 3)
+
+    def forward(self, x):
+        x, _ = self.lstm(x)
+        x = self.fc(x[:, -1, :])
+        return x
 ```
 
 #### - RNNs
 Recurrent Neural Networks (RNNs) are a class of neural networks that process sequential data by maintaining hidden states. RNNs can capture temporal dependencies by using feedback connections, allowing them to model sequences of arbitrary length. However, they may suffer from vanishing or exploding gradients in long sequences.
 
 ```
-# Define the RNN-based model
-class MyRNNModel(nn.Module):
+# Define the RNN model
+class RNNModel(nn.Module):
     def __init__(self):
-        super(MyRNNModel, self).__init__()
-        self.rnn = nn.RNN(input_size=3, hidden_size=10, num_layers=1, batch_first=True)
-        self.fc = nn.Linear(in_features=10, out_features=3)
-        
+        super(RNNModel, self).__init__()
+        self.rnn = nn.RNN(3, 64, batch_first=True)
+        self.fc = nn.Linear(64, 3)
+
+    def forward(self, x):
+        x, _ = self.rnn(x)
+        x = self.fc(x[:, -1, :])
+        return x
 ```
 
 #### - Echo State Networks (ESNs)
 Echo State Networks (ESNs) are a type of recurrent neural network where the recurrent layer has fixed random connections with a large number of neurons, known as the reservoir. The reservoir is not trained but acts as a dynamic memory, capturing the temporal dependencies of the input data. The output weights are trained using a simple linear regression method.
 
 ```
-class MyESNModel:
-    def __init__(self, n_reservoir=100, spectral_radius=0.9, noise=0.01):
+
+# Define the Echo State Network (ESN) 
+class ESNModel(nn.Module):
+    def __init__(self, n_reservoir=500, spectral_radius=0.9):
+        super(ESNModel, self).__init__()
         self.n_reservoir = n_reservoir
         self.spectral_radius = spectral_radius
-        self.noise = noise
+        self.input_scaling = 0.2
+        self.bias_scaling = 0.1
 
+        self.random_state = np.random.RandomState(42)
+        self.register_buffer('reservoir_weights', torch.Tensor(self.generate_reservoir_weights()))
 ```
 
 ### 3. Forecasting and Prediction
 Forecasting refers to the process of making predictions or estimates about future values based on historical data. In the context of the Lorenz system, forecasting involves using the neural network architectures to predict the future states of the system based on the available data. The accuracy and reliability of the forecasts are evaluated using appropriate metrics such as mean squared error (MSE).
-
-Understanding these theoretical concepts provides the necessary background to explore and compare the performance of different neural network architectures in forecasting the dynamics of the Lorenz system. It enables the project to leverage the strengths of each architecture and analyze their effectiveness in capturing the chaotic behavior of the system.
 ![image](https://github.com/HL0525/EE_399/assets/129907047/39458834-78b1-44ef-a46b-f1945664d049)
+Understanding these theoretical concepts provides the necessary background to explore and compare the performance of different neural network architectures in forecasting the dynamics of the Lorenz system. It enables the project to leverage the strengths of each architecture and analyze their effectiveness in capturing the chaotic behavior of the system.
+![image](https://github.com/HL0525/EE_399/assets/129907047/6869bd54-c4ee-4760-a35a-ee06024a274d)
+![image](https://github.com/HL0525/EE_399/assets/129907047/4570e4d3-8801-4ae6-bdd3-f51ff9b415d6)
+
+ we use the trained models to make forecasts and predictions. The forecasts are obtained by passing the test inputs (X_test) through the models, and the predictions are obtained by passing a single test input (X_test[0]) through the models. We then plot the forecasts along with the ground truth values and print the predictions from each model.
+![image](https://github.com/HL0525/EE_399/assets/129907047/af9a5d2b-a296-4aa2-920e-d186cd015ccd)
+![image](https://github.com/HL0525/EE_399/assets/129907047/a2ccc978-0d05-4d54-9a1c-5bff006187b3)
+![image](https://github.com/HL0525/EE_399/assets/129907047/3b79a6c8-8dad-409e-8603-949622060bb1)
 
 
 ## Algorithm Implementation
